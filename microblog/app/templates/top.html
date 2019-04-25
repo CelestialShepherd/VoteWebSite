@@ -1,0 +1,12 @@
+﻿{% extends "base.html" %}
+
+{% block content %}
+<h1>Top of offers</h1>
+
+    <p>
+        {% for o in offers%} 
+        <p>{{o.title}}</p>
+        {% endfor %}
+    </p>
+
+{% endblock %}
