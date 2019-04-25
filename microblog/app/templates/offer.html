@@ -1,4 +1,4 @@
-﻿{% extends "base.html" %}
+{% extends "base.html" %}
 
 {% block content %}
     <h1>Offer</h1>
@@ -6,7 +6,7 @@
         {{ form.hidden_tag() }}
         <p>
             {{ form.title.label }}<br>
-            {{ form.title(size=32) }}<br>
+            {{ form.title(size=64) }}<br>
             {% for error in form.title.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
@@ -21,3 +21,4 @@
         <p>{{ form.submit() }}</p>
     </form>
 {% endblock %}
+    
