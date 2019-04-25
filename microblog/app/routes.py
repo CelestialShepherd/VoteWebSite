@@ -81,10 +81,16 @@ def before_request():
         db.session.commit()
 
         
-@app.route('/offer')
+@app.route('/offer', methods=['GET', 'POST'])
 def offer():
-    if current_user.is_authenticated:
-        return render_template('offer.html', form=OfferForm())
-    else:
-        return render_template('login.html')
+    if not current_user.is_authenticated:
+        return redirect(url_for('login'))
+    form=OfferForm()
+    if form.validate_on_submit():
+        offer = Offer(title=form.title.data, body=form.body.data)
+        db.session.add(offer)
+        db.session.commit()
+        flash('Thanks for your offer, we will moderate it soon!')
+        return redirect(url_for('index'))
+    return render_template('offer.html', title='Offer', form=OfferForm())
 
