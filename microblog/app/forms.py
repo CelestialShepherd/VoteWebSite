@@ -2,7 +2,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, Length
-from app.models import User, Offer
+from app.models import User, Offer, Feedback
 
 class LoginForm(FlaskForm):
     email = StringField('email', validators=[DataRequired()])
@@ -36,3 +36,8 @@ class OfferForm(FlaskForm):
         post = Offer.query.filter_by(title=title.data).first()
         if post is not None:
             raise ValidationError('Please rename your offer.')
+
+class FeedbackForm(FlaskForm):
+    feedemail = StringField('Your Email',validators=[DataRequired(), Email()])
+    feedbody = StringField('Description',validators=[DataRequired()])
+    submit = SubmitField('Send')
