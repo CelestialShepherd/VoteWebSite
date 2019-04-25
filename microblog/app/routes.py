@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 from app import app, db
 from flask import render_template, flash, redirect, request, url_for
-from app.forms import LoginForm, RegistrationForm, OfferForm
+from app.forms import LoginForm, RegistrationForm, OfferForm, FeedbackForm
 from flask_login import current_user, login_user, logout_user, login_required
-from app.models import User, Offer
+from app.models import User, Offer, Feedback
 from werkzeug.urls import url_parse
 from datetime import datetime
 
@@ -80,7 +80,6 @@ def before_request():
         current_user.last_seen = datetime.utcnow()
         db.session.commit()
 
-        
 @app.route('/offer', methods=['GET', 'POST'])
 def offer():
     if not current_user.is_authenticated:
@@ -94,3 +93,18 @@ def offer():
         return redirect(url_for('index'))
     return render_template('offer.html', title='Offer', form=OfferForm())
 
+@app.route('/feedback',  methods=['GET', 'POST'])
+def feedback():
+    form=FeedbackForm()
+    if form.validate_on_submit():
+        feedback = Feedback(feedemail=form.feedemail.data, feedbody=form.feedbody.data)
+        db.session.add(feedback)
+        db.session.commit()
+        flash('Congratulations, we will help you soon!')
+        return redirect(url_for('index'))
+    return render_template('feedback.html', title='Feedback', form=FeedbackForm())
+
+@app.route('/top')
+def top():
+    all_offers=Offer.query.all()
+    return render_template("top.html", offers=all_offers)
