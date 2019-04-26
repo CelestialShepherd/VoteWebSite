@@ -1,23 +1,23 @@
-<html>
+﻿<html>
 <head>
     {% if title %}
-    <title>{{ title }} - microblog</title>
+    <title>{{ title }} - Crowd.Str</title>
     {% else %}
-    <title>microblog</title>
+    <title>Crowd.Str</title>
     {% endif %}
 </head>
 <body>
     <div>
         Microblog:
-        <a href="{{ url_for('index') }}">home</a>
-        <a href="{{ url_for('top') }}">top</a>
         <a href="{{ url_for('offer') }}">offer</a>
-        <a href="{{ url_for('feedback', ) }}">Feedback</a>
+        <a href="{{ url_for('index') }}">home</a>
         {% if current_user.is_anonymous %}
         <a href="{{ url_for('login') }}">login</a>
         {% else %}
         <a href="{{ url_for('user', email=current_user.email) }}">Profile</a>
         <a href="{{ url_for('logout') }}">Logout</a>
+        <a href="{{ url_for('feedback', ) }}">Feedback</a>
+        <a href="{{ url_for('top')}}">Top</a>
         {% endif %}
     </div>
     <hr>

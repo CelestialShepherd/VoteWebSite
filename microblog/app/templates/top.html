@@ -1,0 +1,29 @@
+﻿{% extends "base.html" %}
+
+{% block content %}
+<h1>Top of offers</h1>
+
+<p>
+    <table>
+        <tr>
+            <th>Title</th>
+            <th>Explanation</th>
+            <th>Number of votes</th>
+            <th></th>
+        </tr>
+        {% for o in offers%}
+        <tr>
+            <td>{{ o.title }}</td>
+            <td>{{ o.body }}</td>
+            <td>{{ o.voters.count()}}</td>
+            {%if not current_user.is_voting(o)%}
+            <td><a href="{{ url_for('vote', offer_id=o.id) }}">Vote</a></td>
+            {% else %}
+            <td><a href="{{ url_for('cancel_vote', offer_id=o.id) }}">Cancel vote</a></td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </table>
+</p>
+
+{% endblock %}
