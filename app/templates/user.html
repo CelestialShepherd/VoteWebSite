@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <table>
+        <tr valign="top">
+            <td><img src="{{ user.avatar(128) }}"></td>
+            <td>
+                <h1>User: {{ user.last_name }} {{ user.first_name }} {{ user.midle_name }}</h1>
+                <h1>Address: {{ user.address}}</h1>
+                <h1>Email: {{ user.email}}</h1>
+                <h1>Phone: {{ user.phone}}</h1>
+            </td>
+        </tr>
+    </table>
+{% endblock %}
