@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Feedback</h1>
+<form action="" method="post" name="feedback">
+    {{form.hidden_tag()}}
+    <p>
+        {{ form.feedemail.label }}<br>
+        {{ form.feedemail(size=64) }}<br>
+        {% for error in form.feedemail.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    </p>
+    <p>
+        {{ form.feedbody.label }}<br>
+        {{ form.feedbody(size=64) }}<br>
+        {% for error in form.feedbody.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    </p>
+    <p>{{ form.submit() }}</p>
+</form>
+{% endblock %} 
