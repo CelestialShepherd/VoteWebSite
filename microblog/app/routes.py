@@ -3,7 +3,7 @@ from app import app, db
 from flask import render_template, flash, redirect, request, url_for
 from app.forms import LoginForm, RegistrationForm, OfferForm, FeedbackForm
 from flask_login import current_user, login_user, logout_user, login_required
-from app.models import User, Offer, Feedback
+from app.models import User, Offer, Feedback, voters
 from werkzeug.urls import url_parse
 from datetime import datetime
 
@@ -109,27 +109,25 @@ def top():
     all_offers=Offer.query.all()
     return render_template("top.html", offers=all_offers, user=current_user)
 
-@app.route('/vote/<email>')
+@app.route('/vote/<offer_id>')
 @login_required
-def vote(email):
-    user = User.query.filter_by(email=email).first()
+def vote(offer_id):
+    offer = Offer.query.get(offer_id)
+    user = User.query.filter_by(email=current_user.email).first()
     if user is None:
         flash('User {} not found.'.format(email))
         return redirect(url_for('index'))
-    current_user.vote(user)
+    current_user.vote(offer)
     db.session.commit()
     flash('You have just voted!')
     return redirect(url_for('top'))
 
 
-@app.route('/cancel_vote/<email>')
+@app.route('/cancel_vote/<offer_id>')
 @login_required
-def cancel_vote(email):
-    user = User.query.filter_by(email=email).first()
-    if user is None:
-        flash('User {} not found.'.format(email))
-        return redirect(url_for('index'))
-    current_user.cancel_vote(user)
+def cancel_vote(offer_id):
+    offer = Offer.query.get(offer_id)
+    current_user.cancel_vote(offer)
     db.session.commit()
     flash('You have cancelled your vote.')
     return redirect(url_for('top'))

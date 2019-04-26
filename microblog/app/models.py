@@ -7,7 +7,7 @@ from hashlib import md5
 
 voters = db.Table('voters',
     db.Column('voter_id', db.Integer, db.ForeignKey('user.id')),
-    db.Column('voted_id', db.Integer, db.ForeignKey('user.id')))
+    db.Column('voted_id', db.Integer, db.ForeignKey('offer.id')))
 
 followers = db.Table('followers',
     db.Column('follower_id', db.Integer, db.ForeignKey('user.id')),
@@ -29,23 +29,21 @@ class User(UserMixin, db.Model):
         secondaryjoin=(followers.c.followed_id == id),
         backref=db.backref('followers', lazy='dynamic'), lazy='dynamic')
     voted = db.relationship(
-        'User', secondary=voters,
-        primaryjoin=(voters.c.voter_id == id),
-        secondaryjoin=(voters.c.voted_id == id),
+        'Offer', secondary=voters,
         backref=db.backref('voters', lazy='dynamic'), lazy='dynamic')
 
     def __repr__(self):
         return '<User {}>'.format(self.email) 
     
-    def vote(self, user):
-        if not self.is_voting(user):
-            self.voted.append(user)
-    def cancel_vote(self, user):
-        if self.is_voting(user):
-            self.voted.remove(user)
-    def is_voting(self, user):
+    def vote(self, offer):
+        if not self.is_voting(offer) :
+            self.voted.append(offer)
+    def cancel_vote(self, offer):
+        if self.is_voting(offer):
+            self.voted.remove(offer)
+    def is_voting(self, offer):
         return self.voted.filter(
-            voters.c.voted_id == user.id).count() > 0
+            voters.c.voted_id == offer.id).count() > 0
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
