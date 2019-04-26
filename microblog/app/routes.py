@@ -107,4 +107,29 @@ def feedback():
 @app.route('/top')
 def top():
     all_offers=Offer.query.all()
-    return render_template("top.html", offers=all_offers)
+    return render_template("top.html", offers=all_offers, user=current_user)
+
+@app.route('/vote/<email>')
+@login_required
+def vote(email):
+    user = User.query.filter_by(email=email).first()
+    if user is None:
+        flash('User {} not found.'.format(email))
+        return redirect(url_for('index'))
+    current_user.vote(user)
+    db.session.commit()
+    flash('You have just voted!')
+    return redirect(url_for('top'))
+
+
+@app.route('/cancel_vote/<email>')
+@login_required
+def cancel_vote(email):
+    user = User.query.filter_by(email=email).first()
+    if user is None:
+        flash('User {} not found.'.format(email))
+        return redirect(url_for('index'))
+    current_user.cancel_vote(user)
+    db.session.commit()
+    flash('You have cancelled your vote.')
+    return redirect(url_for('top'))

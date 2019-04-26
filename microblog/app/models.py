@@ -1,15 +1,17 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
-from app import db
+from app import db, login
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
-from app import login
 from hashlib import md5
 
+voters = db.Table('voters',
+    db.Column('voter_id', db.Integer, db.ForeignKey('user.id')),
+    db.Column('voted_id', db.Integer, db.ForeignKey('user.id')))
 
-@login.user_loader
-def load_user(id):
-        return User.query.get(int(id))
+followers = db.Table('followers',
+    db.Column('follower_id', db.Integer, db.ForeignKey('user.id')),
+    db.Column('followed_id', db.Integer, db.ForeignKey('user.id')))
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -19,24 +21,34 @@ class User(UserMixin, db.Model):
     address = db.Column(db.String(64), index=True)
     email = db.Column(db.String(120), index=True, unique=True)
     phone = db.Column(db.String(64), index=True, unique=True)
-        
-    followers = db.Table('followers',
-    db.Column('follower_id', db.Integer, db.ForeignKey('user.id')),
-    db.Column('followed_id', db.Integer, db.ForeignKey('user.id'))
-)
+    password_hash = db.Column(db.String(128))
+    posts = db.relationship('Post', backref='author', lazy='dynamic')
     followed = db.relationship(
         'User', secondary=followers,
         primaryjoin=(followers.c.follower_id == id),
         secondaryjoin=(followers.c.followed_id == id),
         backref=db.backref('followers', lazy='dynamic'), lazy='dynamic')
-    password_hash = db.Column(db.String(128))
-    posts = db.relationship('Post', backref='author', lazy='dynamic')
+    voted = db.relationship(
+        'User', secondary=voters,
+        primaryjoin=(voters.c.voter_id == id),
+        secondaryjoin=(voters.c.voted_id == id),
+        backref=db.backref('voters', lazy='dynamic'), lazy='dynamic')
 
     def __repr__(self):
         return '<User {}>'.format(self.email) 
+    
+    def vote(self, user):
+        if not self.is_voting(user):
+            self.voted.append(user)
+    def cancel_vote(self, user):
+        if self.is_voting(user):
+            self.voted.remove(user)
+    def is_voting(self, user):
+        return self.voted.filter(
+            voters.c.voted_id == user.id).count() > 0
+
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
-
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
     def avatar(self, size):
@@ -49,11 +61,9 @@ class User(UserMixin, db.Model):
     def follow(self, user):
         if not self.is_following(user):
             self.followed.append(user)
-
     def unfollow(self, user):
         if self.is_following(user):
             self.followed.remove(user)
-
     def is_following(self, user):
         return self.followed.filter(
             followers.c.followed_id == user.id).count() > 0
@@ -65,6 +75,9 @@ class User(UserMixin, db.Model):
         own = Post.query.filter_by(user_id=self.id)
         return followed.union(own).order_by(Post.timestamp.desc())
 
+@login.user_loader
+def load_user(id):
+        return User.query.get(int(id))
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -82,16 +95,23 @@ class Post(db.Model):
         return check_password_hash(self.password_hash, password)
 
 
-class Offer(db.Model):
+class Offer(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(64), index=True)
     body = db.Column(db.String(250), index=True)
     on_site = db.Column(db.Boolean, index=True, default=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))#Создатель предложения
+    
     def __repr__(self):
         return '<Offer {}>'.format(self.title)
 
+class Feedback(db.Model): 
+    id = db.Column(db.Integer, primary_key=True) 
+    feedbody = db.Column(db.String(250), index=True) 
+    feedemail = db.Column(db.String(120), index=True)
+
+    def __repr__(self): 
+        return '<Feedback {}>'.format(self.body) 
 
 
 
