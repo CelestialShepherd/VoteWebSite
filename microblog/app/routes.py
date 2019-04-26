@@ -6,11 +6,13 @@ from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User, Offer, Feedback, voters
 from werkzeug.urls import url_parse
 from datetime import datetime
+from app.forms import ResetPasswordRequestForm, ResetPasswordForm
+from app.email import send_password_reset_email
 
 @app.route('/')
 @app.route('/index')
 def index():
-    user = {'username': 'Вадим Пикалов'}
+    user = {'username': 'user'}
     posts = [
         {
             'author': {'username': 'John'},
@@ -78,7 +80,18 @@ def user(email):
 def before_request():
     if current_user.is_authenticated:
         current_user.last_seen = datetime.utcnow()
+        db.session.commit()    
+
+@app.route('/feedback',  methods=['GET', 'POST'])
+def feedback():
+    form=FeedbackForm()
+    if form.validate_on_submit():
+        feedback = Feedback(feedemail=form.feedemail.data, feedbody=form.feedbody.data)
+        db.session.add(feedback)
         db.session.commit()
+        flash('Congratulations, we will help you soon!')
+        return redirect(url_for('index'))
+    return render_template('feedback.html', title='Feedback', form=FeedbackForm())
 
 @app.route('/offer', methods=['GET', 'POST'])
 def offer():
@@ -93,16 +106,34 @@ def offer():
         return redirect(url_for('index'))
     return render_template('offer.html', title='Offer', form=OfferForm())
 
-@app.route('/feedback',  methods=['GET', 'POST'])
-def feedback():
-    form=FeedbackForm()
-    if form.validate_on_submit():
-        feedback = Feedback(feedemail=form.feedemail.data, feedbody=form.feedbody.data)
-        db.session.add(feedback)
-        db.session.commit()
-        flash('Congratulations, we will help you soon!')
+@app.route('/reset_password_request', methods=['GET', 'POST'])
+def reset_password_request():
+    if current_user.is_authenticated:
         return redirect(url_for('index'))
-    return render_template('feedback.html', title='Feedback', form=FeedbackForm())
+    form = ResetPasswordRequestForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user:
+            send_password_reset_email(user)
+        flash('Check your email for the instructions to reset your password')
+        return redirect(url_for('login'))
+    return render_template('reset_password_request.html',
+                           title='Reset Password', form=form)
+
+@app.route('/reset_password/<token>', methods=['GET', 'POST'])
+def reset_password(token):
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+    user = User.verify_reset_password_token(token)
+    if not user:
+        return redirect(url_for('index'))
+    form = ResetPasswordForm()
+    if form.validate_on_submit():
+        user.set_password(form.password.data)
+        db.session.commit()
+        flash('Your password has been reset.')
+        return redirect(url_for('login'))
+    return render_template('reset_password.html', form=form)
 
 @app.route('/top')
 def top():
@@ -121,7 +152,6 @@ def vote(offer_id):
     db.session.commit()
     flash('You have just voted!')
     return redirect(url_for('top'))
-
 
 @app.route('/cancel_vote/<offer_id>')
 @login_required
