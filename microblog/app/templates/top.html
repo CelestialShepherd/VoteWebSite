@@ -15,11 +15,11 @@
         <tr>
             <td>{{ o.title }}</td>
             <td>{{ o.body }}</td>
-            <td>{{user.voted.count()}}</td>
-            {%if not current_user.is_voting(user)%}
-            <td><a href="{{ url_for('vote', email=user.email) }}">Vote</a></td>
+            <td>{{ o.voters.count()}}</td>
+            {%if not current_user.is_voting(o)%}
+            <td><a href="{{ url_for('vote', offer_id=o.id) }}">Vote</a></td>
             {% else %}
-            <td><a href="{{ url_for('cancel_vote', email=user.email) }}">Cancel vote</a></td>
+            <td><a href="{{ url_for('cancel_vote', offer_id=o.id) }}">Cancel vote</a></td>
             {% endif %}
         </tr>
         {% endfor %}
