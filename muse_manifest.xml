@@ -1,0 +1,94 @@
+<manifest alg="2" build="2018.1.0.386" opt="false" iceEnabled="true" iceMarkupVersion="2" iceEnabledOptions="link,responsive,cachebuster,textStyling" exportTarget="other" domain="crowdsourcestr.ru" resolutions="1x" timestamp="1556258395746">
+  <folder name="css">
+    <file name="site_global.css" crc="444006867"/>
+    <file name="___________-__-_______.css" crc="4047952451" ref="голосование-за-проекты"/>
+    <file name="___________-_______.css" crc="178673527" ref="выполненные-проекты"/>
+    <file name="iefonts____________-_______.css" crc="307449229" ref="выполненные-проекты"/>
+    <file name="index.css" crc="4131884902" ref="index"/>
+    <file name="iefonts_index.css" crc="286079286" ref="index"/>
+    <file name="__________-______.css" crc="117223825" ref="предложить-проект"/>
+    <file name="iefonts___________-______.css" crc="423061182" ref="предложить-проект"/>
+  </folder>
+  <folder name="scripts">
+    <file name="jquery-1.8.3.min.js" crc="209076791" ref="предложить-проект:выполненные-проекты:index:голосование-за-проекты"/>
+    <file name="museutils.js" crc="340535759" ref="предложить-проект:выполненные-проекты:index:голосование-за-проекты"/>
+    <file name="whatinput.js" crc="86476730" ref="предложить-проект:выполненные-проекты:index:голосование-за-проекты"/>
+    <file name="museconfig.js" crc="4286661555" ref="предложить-проект:выполненные-проекты:index:голосование-за-проекты"/>
+    <file name="webpro.js" crc="4059564322" ref="предложить-проект:index"/>
+    <file name="form_check.php" crc="4020933626" ref="предложить-проект"/>
+    <file name="form_throttle.php" crc="4259590256" ref="предложить-проект"/>
+    <file name="form_process.php" crc="37464564" ref="предложить-проект"/>
+    <file name="form-u981.php" crc="257289298" ref="предложить-проект"/>
+    <file name="jquery.watch.js" crc="51536988" ref="предложить-проект:выполненные-проекты:index:голосование-за-проекты"/>
+    <file name="form-u2380.php" crc="243086423" ref="предложить-проект"/>
+    <file name="musewpslideshow.js" crc="3862962738" ref="предложить-проект:index"/>
+    <file name="jquery.museoverlay.js" crc="4147669564" ref="предложить-проект:index"/>
+    <file name="touchswipe.js" crc="4075097462" ref="предложить-проект:index"/>
+    <file name="require.js" crc="7928878" ref="предложить-проект:выполненные-проекты:index:голосование-за-проекты"/>
+    <file name="form-u1982.php" crc="196268739" ref="index"/>
+  </folder>
+  <folder name="images">
+    <file name="burc-crop-u580.jpg" crc="4136954945" seo="true" ref="предложить-проект">
+      <caption webpage="предложить-проект" alt=""/>
+    </file>
+    <file name="вставленное изображение 1680x960.jpg" crc="4218928564" seo="true" ref="предложить-проект:выполненные-проекты:index:голосование-за-проекты">
+      <caption webpage="index" alt=""/>
+      <caption webpage="выполненные-проекты" alt=""/>
+      <caption webpage="голосование-за-проекты" alt=""/>
+      <caption webpage="предложить-проект" alt=""/>
+    </file>
+    <file name="вставленное изображение 711x330.jpg" crc="417477322" seo="true" ref="предложить-проект">
+      <caption webpage="предложить-проект" alt=""/>
+    </file>
+    <file name="вставленное изображение 886x634.jpg" crc="379305860" seo="true" ref="предложить-проект:index">
+      <caption webpage="index" alt=""/>
+      <caption webpage="предложить-проект" alt=""/>
+    </file>
+    <file name="burc.jpg" crc="4146581426" seo="true" ref="выполненные-проекты">
+      <caption webpage="выполненные-проекты" alt=""/>
+    </file>
+    <file name="домашняя-favicon.ico" crc="3799423799" ref="index"/>
+    <file name="burc-crop-u1756.jpg" crc="4136954945" seo="true" ref="index">
+      <caption webpage="index" alt=""/>
+    </file>
+    <file name="вставленное изображение 642x642.jpg" crc="2309799" seo="true" ref="index">
+      <caption webpage="index" alt=""/>
+    </file>
+    <file name="вставленное изображение 653x321.jpg" crc="3911212542" seo="true" ref="index">
+      <caption webpage="index" alt=""/>
+    </file>
+    <file name="вставленное изображение 960x540.jpg" crc="4049133063" seo="true" ref="index">
+      <caption webpage="index" alt=""/>
+    </file>
+    <file name="burc-crop-u2178.jpg" crc="4136954945" seo="true" ref="голосование-за-проекты">
+      <caption webpage="голосование-за-проекты" alt=""/>
+    </file>
+    <file name="вставленное изображение 1280x128078x78.jpg" crc="4258398273" seo="true" ref="предложить-проект">
+      <caption webpage="предложить-проект" alt=""/>
+    </file>
+    <file name="вставленное изображение 1920x192053x53.jpg" crc="3866668798" seo="true" ref="предложить-проект">
+      <caption webpage="предложить-проект" alt=""/>
+    </file>
+    <file name="вставленное изображение 1024x102454x54.jpg" crc="480727906" seo="true" ref="предложить-проект">
+      <caption webpage="предложить-проект" alt=""/>
+    </file>
+    <file name="вставленное изображение 1587x597267x100.jpg" crc="419916515" seo="true" ref="index:предложить-проект">
+      <caption webpage="index" alt=""/>
+      <caption webpage="предложить-проект" alt=""/>
+    </file>
+    <file name="вставленное изображение 1920x1080-crop-u2510.jpg" crc="4211401728" seo="true" ref="index">
+      <caption webpage="index" alt=""/>
+    </file>
+    <file name="вставленное изображение 517x193.jpg" crc="143019844" seo="true" ref="index:предложить-проект">
+      <caption webpage="index" alt=""/>
+      <caption webpage="предложить-проект" alt=""/>
+    </file>
+    <file name="вставленное изображение 1920x1080-crop-u2552.jpg" crc="4211401728" seo="true" ref="предложить-проект">
+      <caption webpage="предложить-проект" alt=""/>
+    </file>
+  </folder>
+  <file name="предложить-проект.html" crc="83772680" seo="true" mt="1556257421078" redirect="true"/>
+  <file name="выполненные-проекты.html" crc="285105626" seo="true" mt="1556258306866" redirect="true"/>
+  <file name="index.html" crc="3785455227" seo="true" mt="1556257042854" redirect="true"/>
+  <file name="голосование-за-проекты.html" crc="409478922" seo="true" mt="1556256184186" redirect="true"/>
+</manifest>
